@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar E-mail com IA (Demo)</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width:700px; margin:40px auto; padding:16px; }
+        label { display:block; margin:10px 0 6px; font-weight:600 }
+        input[type="text"], input[type="email"], textarea { width:100%; padding:8px; box-sizing:border-box; border:1px solid #ccc; border-radius:4px }
+        textarea { min-height:160px; resize:vertical }
+        .actions { margin-top:12px; display:flex; gap:8px }
+        button { padding:10px 14px; border:none; border-radius:4px; cursor:pointer }
+    </style>
+</head>
+<body>
+    <h2>Demo: Gerar e Enviar E-mail</h2>
+    <label>Destinatário</label>
+    <input id="dest" type="email" placeholder="email@exemplo.com">
+    <label>Assunto</label>
+    <input id="assunto" type="text" placeholder="Assunto">
+    <label>Tema</label>
+    <input id="tema" type="text" placeholder="Tema para IA">
+    <label>Modelo (opcional)</label>
+    <input id="modelo" type="text" placeholder="Formal, Amigável">
+    <label>Corpo (gerado)</label>
+    <textarea id="corpo"></textarea>
+    <div class="actions">
+        <button id="gen">Gerar Texto</button>
+        <button id="send">Enviar</button>
+    </div>
+
+    <script>
+        document.getElementById('gen').addEventListener('click', async () => {
+            const tema = document.getElementById('tema').value;
+            const modelo = document.getElementById('modelo').value;
+            const res = await fetch('/email/gerar', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({tema, modelo}) });
+            document.getElementById('corpo').value = await res.text();
+        });
+
+        document.getElementById('send').addEventListener('click', async () => {
+            const destinatario = document.getElementById('dest').value;
+            const assunto = document.getElementById('assunto').value;
+            const corpo = document.getElementById('corpo').value;
+            await fetch('/email/enviar', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({destinatario, assunto, corpo}) });
+            alert('Requisição enviada (demo)');
+        });
+    </script>
+</body>
+</html>
