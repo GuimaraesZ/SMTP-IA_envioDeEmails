@@ -23,7 +23,3 @@ Commits incluídos neste repositório
 - Front-end simples para testar geração e envio de e-mails
 
 Arquivo de configuração não incluso: use `application.properties` localmente para configurar chaves e credenciais.
-
----
-
-Se quiser, adiciono NO repositório um `application.properties.example` com placeholders para facilitar a configuração local.
